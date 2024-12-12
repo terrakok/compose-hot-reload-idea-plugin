@@ -1,0 +1,14 @@
+[versions]
+kotlin = "2.1.0"
+compose = "1.7.1"
+jewel = "0.27.0"
+firework = "1.0.0-dev.31.6"
+
+[libraries]
+jewel-ide = { module = "org.jetbrains.jewel:jewel-ide-laf-bridge-243", version.ref = "jewel" }
+firework-orchestration = { module = "org.jetbrains.compose:hot-reload-orchestration", version.ref = "firework" }
+
+[plugins]
+kotlin-java = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+compose = { id = "org.jetbrains.compose", version.ref = "compose" }
