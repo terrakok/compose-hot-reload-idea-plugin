@@ -1,0 +1,21 @@
+name: Publish Release
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build
+        run: ./gradlew buildPlugin
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: idea-plugin/build/libs/idea-plugin.jar
+          prerelease: true
