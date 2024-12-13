@@ -25,8 +25,8 @@ intellijPlatform {
     pluginConfiguration {
         id = "org.jetbrains.compose.hotreload"
         name = "Compose Hot Reload"
-        version = "1.0.0"
-        description = "Compose Hot Reload Experiments"
+        version = "0.0.1"
+        description = "Compose Hot Reload"
     }
 }
 
