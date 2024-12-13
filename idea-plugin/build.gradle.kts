@@ -29,3 +29,9 @@ intellijPlatform {
         description = "Compose Hot Reload Experiments"
     }
 }
+
+tasks.named<JavaExec>("runIde") {
+ jvmArgumentProviders += CommandLineArgumentProvider {
+     listOf("-Didea.kotlin.plugin.use.k2=true")
+ }
+}
