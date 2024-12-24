@@ -4,7 +4,6 @@ import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.components.service
-import com.intellij.openapi.fileEditor.FileDocumentManager
 
 class ReloadCompositionAction : AnAction() {
     override fun getActionUpdateThread(): ActionUpdateThread {
@@ -19,7 +18,6 @@ class ReloadCompositionAction : AnAction() {
     }
 
     override fun actionPerformed(event: AnActionEvent) {
-        FileDocumentManager.getInstance().saveAllDocuments()
         event.project?.service<HotReloadService>()?.engine?.reload()
     }
 }

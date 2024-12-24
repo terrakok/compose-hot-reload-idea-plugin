@@ -6,6 +6,7 @@ import com.intellij.openapi.diagnostic.logger
 import com.intellij.openapi.externalSystem.model.execution.ExternalSystemTaskExecutionSettings
 import com.intellij.openapi.externalSystem.service.execution.ProgressExecutionMode
 import com.intellij.openapi.externalSystem.util.ExternalSystemUtil.runTask
+import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.UserDataHolderBase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -85,6 +86,7 @@ internal class ApplicationEngine(
     }
 
     fun reload() {
+        FileDocumentManager.getInstance().saveAllDocuments()
         appState.value.sendCommand(RecompileRequest())
     }
 
