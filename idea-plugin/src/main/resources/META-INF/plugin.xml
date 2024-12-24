@@ -4,7 +4,7 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="org.jetbrains.kotlin">
-        <supportsKotlinPluginMode supportsK2="true" />
+        <supportsKotlinPluginMode supportsK2="true"/>
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">
@@ -17,4 +17,10 @@
                 anchor="bottom"
                 factoryClass="org.jetbrains.compose.hotreload.HotReloadToolWindowFactory"/>
     </extensions>
+    <actions>
+        <action id="org.jetbrains.compose.hotreload.ReloadCompositionAction"
+                class="org.jetbrains.compose.hotreload.ReloadCompositionAction"
+                text="Hot Reload Compose UI Composition"
+        />
+    </actions>
 </idea-plugin>
