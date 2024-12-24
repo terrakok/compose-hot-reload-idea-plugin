@@ -12,8 +12,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.jetbrains.compose.reload.orchestration.OrchestrationClientRole
 import org.jetbrains.compose.reload.orchestration.OrchestrationMessage
+import org.jetbrains.compose.reload.orchestration.OrchestrationMessage.CleanCompositionRequest
 import org.jetbrains.compose.reload.orchestration.OrchestrationMessage.ClientDisconnected
 import org.jetbrains.compose.reload.orchestration.OrchestrationMessage.LogMessage
+import org.jetbrains.compose.reload.orchestration.OrchestrationMessage.RecompileRequest
+import org.jetbrains.compose.reload.orchestration.OrchestrationMessage.RetryFailedCompositionRequest
 import org.jetbrains.compose.reload.orchestration.OrchestrationMessage.UIRendered
 import org.jetbrains.compose.reload.orchestration.invokeWhenReceived
 import org.jetbrains.compose.reload.orchestration.startOrchestrationServer
@@ -41,6 +44,10 @@ private interface ApplicationController {
 
     fun stop() {
         LOG.debug("$state stop")
+    }
+
+    fun sendCommand(command: OrchestrationMessage) {
+        LOG.debug("$state sendCommand: $command")
     }
 
     fun stopped() {
@@ -77,9 +84,23 @@ internal class ApplicationEngine(
         appState.value.run(entryPoint)
     }
 
+    fun reload() {
+        appState.value.sendCommand(RecompileRequest())
+    }
+
+    fun retryFailedComposition() {
+        appState.value.sendCommand(RetryFailedCompositionRequest())
+    }
+
+    fun cleanComposition() {
+        appState.value.sendCommand(CleanCompositionRequest())
+    }
+
     fun stop() {
         appState.value.stop()
     }
+
+    //---------------- internal states -------------------------
 
     private inner class Idle : ApplicationController {
         override val state = AppState.IDLE
@@ -111,6 +132,11 @@ internal class ApplicationEngine(
             super.stop()
             appState.value = Stopping()
             server.sendMessage(OrchestrationMessage.ShutdownRequest())
+        }
+
+        override fun sendCommand(command: OrchestrationMessage) {
+            super.sendCommand(command)
+            server.sendMessage(command)
         }
 
         override fun stopped() {
