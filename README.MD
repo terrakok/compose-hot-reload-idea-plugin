@@ -1,6 +1,6 @@
 # Compose Hot Reload IDEA plugin
 
-https://github.com/user-attachments/assets/bb808110-aeaa-4180-951e-c6aacfb66c8b
+https://github.com/user-attachments/assets/dda2db04-bc6f-4189-86f9-7868096730be
 
 ### Download a plugin ZIP from the releases page:
 https://github.com/terrakok/compose-hot-reload-idea-plugin/releases
