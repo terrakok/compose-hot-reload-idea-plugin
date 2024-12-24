@@ -1,7 +1,7 @@
 [versions]
 
-kotlin = "2.1.0-firework.31"
-firework = "1.0.0-dev.31.6"
+kotlin = "2.1.0-firework.32"
+firework = "1.0.0-dev.32.1"
 compose = "1.7.1"
 agp = "8.6.1"
 androidx-activityCompose = "1.9.3"

@@ -2,7 +2,7 @@
 kotlin = "2.1.0"
 compose = "1.7.1"
 jewel = "0.27.0"
-firework = "1.0.0-dev.31.6"
+firework = "1.0.0-dev.32.1"
 
 [libraries]
 jewel-ide = { module = "org.jetbrains.jewel:jewel-ide-laf-bridge-243", version.ref = "jewel" }
