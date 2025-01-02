@@ -7,8 +7,7 @@ plugins {
 
 dependencies {
     intellijPlatform {
-        intellijIdeaCommunity("2024.3")
-        instrumentationTools()
+        intellijIdeaCommunity("2024.3.1")
         bundledPlugin("com.intellij.gradle")
         bundledPlugin("org.jetbrains.kotlin")
     }
