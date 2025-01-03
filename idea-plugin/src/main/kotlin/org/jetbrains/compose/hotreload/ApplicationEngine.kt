@@ -5,6 +5,7 @@ import com.intellij.execution.executors.DefaultRunExecutor
 import com.intellij.openapi.diagnostic.logger
 import com.intellij.openapi.externalSystem.model.execution.ExternalSystemTaskExecutionSettings
 import com.intellij.openapi.externalSystem.service.execution.ProgressExecutionMode
+import com.intellij.openapi.externalSystem.task.TaskCallback
 import com.intellij.openapi.externalSystem.util.ExternalSystemUtil.runTask
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.project.Project
@@ -111,7 +112,9 @@ internal class ApplicationEngine(
             super.run(entryPoint)
             appState.value = Starting()
             logs.value = emptyList()
-            project.runDevEntryPoint(entryPoint, server.port)
+            project.runDevEntryPoint(entryPoint, server.port) {
+                appState.value = Idle()
+            }
         }
     }
 
@@ -120,11 +123,6 @@ internal class ApplicationEngine(
         override fun rendered() {
             super.rendered()
             appState.value = Running()
-        }
-
-        override fun stopped() {
-            super.stopped()
-            appState.value = Idle()
         }
     }
 
@@ -156,7 +154,7 @@ internal class ApplicationEngine(
     }
 }
 
-private fun Project.runDevEntryPoint(entryPoint: DevEntryPoint, port: Int) {
+private fun Project.runDevEntryPoint(entryPoint: DevEntryPoint, port: Int, onErrorCallback: () -> Unit) {
     LOG.debug("runDevEntryPoint: $entryPoint on port $port")
     val project = this
     val settings = ExternalSystemTaskExecutionSettings().apply {
@@ -176,7 +174,15 @@ private fun Project.runDevEntryPoint(entryPoint: DevEntryPoint, port: Int) {
         DefaultRunExecutor.EXECUTOR_ID,
         project,
         GradleConstants.SYSTEM_ID,
-        null,
+        object : TaskCallback {
+            override fun onSuccess() {
+                //do nothing
+            }
+
+            override fun onFailure() {
+                onErrorCallback()
+            }
+        },
         ProgressExecutionMode.IN_BACKGROUND_ASYNC,
         false,
         UserDataHolderBase()
